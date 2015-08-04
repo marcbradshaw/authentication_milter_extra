@@ -46,9 +46,9 @@ sub close_callback {
         my ( $self ) = @_;
 
         if ( $lookers_cache ) {
-            if ( $self->check_reload() ) {
-                $self->dbgout( 'UserDb', 'Re-loading User DB', LOG_INFO );
-            }
+            #if ( $self->check_reload() ) {
+            #    $self->dbgout( 'UserDb', 'Re-loading User DB', LOG_INFO );
+            #}
             return $lookers_cache;
         }
     
