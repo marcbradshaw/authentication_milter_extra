@@ -1,0 +1,16 @@
+{
+    "handlers" : {
+        
+        "SpamAssassin" : {
+            "default_user" : "nobody",
+            "sa_host" : "localhost",
+            "sa_port" : "783",
+            "remove_headers" : "yes"
+        },
+        "UserDB" : {
+            "add_header" : 1,
+            "lookup" : [ "hash:/etc/postfix/virtusertable" ]
+        },
+
+    }
+}
