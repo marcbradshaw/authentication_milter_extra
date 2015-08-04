@@ -46,9 +46,13 @@ sub close_callback {
         my ( $self ) = @_;
 
         if ( $lookers_cache ) {
-            #if ( $self->check_reload() ) {
-            #    $self->dbgout( 'UserDb', 'Re-loading User DB', LOG_INFO );
-            #}
+            my $reloaded = 0;
+            foreach my $looker ( @{$lookers_cache} ) {
+                $reloaded = $reloaded + $looker->check_reload();
+            }
+            if ( $reloaded ) {
+                $self->dbgout( 'UserDb', 'Re-loading User DB', LOG_INFO );
+            }
             return $lookers_cache;
         }
     
@@ -72,25 +76,6 @@ sub close_callback {
         return $lookers_cache;
     }
 
-}
-
-sub preload {
-    my ( $self ) = @_;
-    my $lookers = $self->get_lookers();
-    foreach my $looker ( @{$lookers} ) {
-        $looker->preload();
-    }
-    return;
-}
-
-sub check_reload {
-    my ( $self ) = @_;
-    my $ret = 0;
-    my $lookers = $self->get_lookers();
-    foreach my $looker ( @{$lookers} ) {
-        $ret = $ret + $looker->check_reload();
-    }
-    return $ret;
 }
 
 sub get_user_from_address {
