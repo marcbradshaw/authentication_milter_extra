@@ -13,7 +13,7 @@ perl:
 
 before_install:
    - git config --global user.name "TravisCI"
-   - git clone https://github.com/fastmail/authentication_milter.git
+   - sudo apt-get install libdb-dev
 
 install:
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
@@ -26,4 +26,4 @@ install:
     - cpanm --quiet --notest Net::DNS Net::IP Net::Server
     - cpanm --quiet --notest Pod::Usage Proc::ProcessTable Socket Sys::Hostname Sys::Syslog
     - cpanm --quiet --notest Mail::SpamAssassin Mail::SpamAssassin::Client DB_File Test::MockModule
-    - cd authentication_milter && perl Makefile.PL && make install
+    - cpanm --quiet --notest Mail::Milter::Authentication
