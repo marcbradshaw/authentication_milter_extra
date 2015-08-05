@@ -16,7 +16,7 @@ before_install:
    - sudo apt-get install libdb-dev
 
 install:
-    - cpanm --quite --notest http://search.cpan.org/CPAN/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
+    - cpanm --quiet --notest http://search.cpan.org/CPAN/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
     - cpanm --quiet --notest Test::More Test::File::Contents Test::Perl::Critic
     - cpanm --quiet --notest Test::CheckManifest Test::Pod::Coverage Test::Pod
