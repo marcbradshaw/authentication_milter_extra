@@ -3,25 +3,24 @@ use strict;
 use warnings;
 use version; our $VERSION = version->declare('v0.1.0');
 
-
 1;
 
 __END__
 
 =head1 NAME
 
-Mail::Milter::Authentication::Extra - A PERL Mail Authentication Milter
+Mail::Milter::Authentication::Extra - A PERL Mail Authentication Milter extra handler modules
 
 =head1 DESCRIPTION
 
-A PERL implemtation of email authentication standards rolled up into a single easy to use milter.
+Additional handlers for Authentication Milter which did not fit within the core functionality, or
+are not yet 100% production ready.
 
 =head1 SYNOPSIS
 
-Subclass of Net::Server::PreFork for bringing up the main server process for authentication_milter.
+This is a collection of additional handler modules for Authentication Milter.
 
-Please see Net::Server docs for more detail of the server code.
-
+Please see the output of 'authentication_milter --help' for usage help.
 
 =head1 DEPENDENCIES
 

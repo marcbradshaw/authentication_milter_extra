@@ -102,6 +102,13 @@ __END__
 
 Check if email has a local recipient account.
 
+=head1 CONFIGURATION
+
+        "UserDB" : {
+            "add_header" : 1,
+            "lookup" : [ "hash:/etc/postfix/virtusertable" ]
+        },
+
 =head1 SYNOPSIS
 
 =head2 CONFIG

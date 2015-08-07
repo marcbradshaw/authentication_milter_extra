@@ -214,6 +214,15 @@ __END__
 
 Check email for spam using SpamAssassin spamd.
 
+=head1 CONFIGURATION
+
+        "SpamAssassin" : {
+            "default_user" : "nobody",
+            "sa_host" : "localhost",
+            "sa_port" : "783",
+            "remove_headers" : "yes"
+        },
+
 =head1 SYNOPSIS
 
 =head2 CONFIG
