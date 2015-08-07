@@ -43,10 +43,6 @@ requires (
     'Mail::SpamAssassin::Client' => 0,
 );
 
-install_share (
-    'share',
-);
-
 install_as_cpan;
 auto_install;
 WriteAll;
