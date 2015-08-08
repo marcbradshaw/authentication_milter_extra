@@ -19,6 +19,15 @@ use Mail::SpamAssassin::Client;
 # HOWEVER, spamassass-milter doesn't appear to do the
 # right thing either, so we're actually no worse off.
 
+sub default_config {
+    return {
+        'default_user'   => 'nobody',
+        'sa_host'        => 'localhost',
+        'sa_port'        => '783',
+        'remove_headers' => 'yes',
+    }
+}
+
 sub get_user {
     my ( $self ) = @_;
     my $spf_handler = $self->get_handler('UserDB');

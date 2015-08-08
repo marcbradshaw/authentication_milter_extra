@@ -9,6 +9,13 @@ use version; our $VERSION = version->declare('v0.1.0');
 
 my $CHECKED_TIME;
 
+sub default_config {
+    return {
+        'add_header' => 1,
+        'lookup'     => [ 'hash:/etc/postfix/virtusertable' ],
+    };
+}
+
 sub setup_callback {
     my ( $self ) = @_;
     delete $self->{'local_user'};
