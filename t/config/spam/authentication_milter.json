@@ -31,20 +31,7 @@
         "UserDB" : {
             "add_header" : 1,
             "lookup" : [ "hash:config/spam/virtusertable" ]
-        },
-
-        "!SPF" : {},
-        "!DMARC" : {},
-        "!DKIM" : {},
-        "!PTR" : {},
-        "!SenderID" : {},
-        "!IPRev" : {},
-        "!Auth" : {},
-        "!LocalIP" : {},
-        "!TrustedIP" : {},
-        "!AddID" : {},
-        "!ReturnOK" : {},
-        "!Sanitize" : {}
+        }
     }
 
 }
