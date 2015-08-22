@@ -2,7 +2,7 @@ package Mail::Milter::Authentication::Handler::SpamAssassin;
 use strict;
 use warnings;
 use base 'Mail::Milter::Authentication::Handler';
-our $VERSION = 0.8;
+use version; our $VERSION = version->declare('v1.0.0');
 
 use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
