@@ -16,8 +16,8 @@ resources (
    #homepage   => '',
    #IRC        => 'irc://irc.perl.org/#Mail-Milter-Authentication',
    license    => 'http://dev.perl.org/licenses/',
-   repository => 'https://github.com/fastmail/authentication_milter/',
-   bugtracker => 'https://github.com/fastmail/authentication_milter/issues/',
+   repository => 'https://github.com/marcbradshaw/authentication_milter_extra/',
+   bugtracker => 'https://github.com/marcbradshaw/authentication_milter_extra/issues/',
 );
 
 configure_requires (
