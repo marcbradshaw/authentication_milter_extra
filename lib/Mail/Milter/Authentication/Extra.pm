@@ -9,7 +9,7 @@ __END__
 
 =head1 NAME
 
-Mail::Milter::Authentication::Extra - A PERL Mail Authentication Milter extra handler modules
+Mail::Milter::Authentication::Extra - A Perl Mail Authentication Milter extra handler modules
 
 =head1 DESCRIPTION
 

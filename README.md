@@ -2,7 +2,7 @@ Authentication Milter Extra
 ---------------------------
 
 Extra handler modules for [Authentication Milter](https://github.com/fastmail/authentication_milter).
-A PERL implemtation of email authentication standards rolled up into a single easy to use milter.
+A Perl implementation of email authentication standards rolled up into a single easy to use milter.
 
 This repo provides the following additional modules.
 
