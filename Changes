@@ -1,6 +1,7 @@
 Revision history for Mail-Milter-Authentication-Extra
 
-1.0.1   Future
+1.0.1   2015-09-11
+        - Packaging fixes
 
 1.0.0   2015-08-22
         - Released to CPAN
