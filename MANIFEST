@@ -28,6 +28,5 @@ t/data/source/gtube.eml
 t/dev-boilerplate.t
 t/dev-critic.t
 t/dev-manifest.t
-t/dev-pod-coverage.t
 t/dev-pod.t
 t/perlcriticrc
