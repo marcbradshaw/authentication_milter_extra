@@ -13,6 +13,11 @@ UserDB map currently only supports a hash: style table.
 
 These handlers are not considered production ready and may not be fully documented.
 
+Badges
+------
+
+[![Code on GitHub](https://img.shields.io/badge/github-repo-blue.svg)](https://github.com/marcbradshaw/authentication_milter_extra) [![Build Status](https://travis-ci.org/marcbradshaw/authentication_milter_extra.svg?branch=master)](https://travis-ci.org/marcbradshaw/authentication_milter_extra) [![Open Issues](https://img.shields.io/github/issues/marcbradshaw/authentication_milter_extra.svg)](https://github.com/marcbradshaw/authentication_milter_extra/issues) [![Dist on CPAN](https://img.shields.io/cpan/v/Mail-Milter-Authentication-Extra.svg)](https://metacpan.org/release/Mail-Milter-Authentication-Extra) [![CPANTS](https://img.shields.io/badge/cpants-kwalitee-blue.svg)](http://cpants.cpanauthors.org/dist/Mail-Milter-Authentication-Extra)
+
 Installation
 ------------
 
@@ -40,11 +45,6 @@ This is free software; you can redistribute it and/or modify it under the
 same terms as the Perl 5 programming language system itself.
 
 See [LICENSE](LICENSE) file for license details.
-
-Code Climate
-------------
-
-master branch [![Build Status](https://travis-ci.org/marcbradshaw/authentication_milter_extra.svg?branch=master)](https://travis-ci.org/marcbradshaw/authentication_milter_extra)
 
 Contributing
 ------------
