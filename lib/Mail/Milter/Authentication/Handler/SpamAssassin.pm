@@ -111,7 +111,7 @@ sub body_callback {
     return;
 }
 
-sub epm_requires {
+sub eom_requires {
     my ($self) = @_;
     my @requires = qw{ UserDB };
     return \@requires;
