@@ -261,6 +261,46 @@ sub run_smtp_processing_spam {
     return;
 }
 
+sub run_milter_processing_smime {
+
+    start_milter( 'config/smime' );
+
+    milter_process({
+        'desc'   => 'Smime',
+        'prefix' => 'config/smime',
+        'source' => 'smime.eml',
+        'dest'   => 'smime.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    stop_milter();
+
+    return;
+}
+
+sub run_smtp_processing_smime {
+
+    start_milter( 'config/smime.smtp' );
+
+    smtp_process({
+        'desc'   => 'Smime',
+        'prefix' => 'config/smime.smtp',
+        'source' => 'smime.eml',
+        'dest'   => 'smime.smtp.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    stop_milter();
+
+    return;
+}
+
 sub smtpput {
     my ( $args ) = @_;
 
