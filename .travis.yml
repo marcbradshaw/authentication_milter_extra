@@ -13,7 +13,7 @@ perl:
 
 before_install:
    - git config --global user.name "TravisCI"
-   - sudo apt-get install libdb-dev
+   - sudo apt-get install libdb5.3-dev
 
 install:
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
