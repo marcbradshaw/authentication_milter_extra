@@ -261,6 +261,68 @@ sub run_smtp_processing_spam {
     return;
 }
 
+sub run_milter_processing_rspamd {
+
+    start_milter( 'config/rspamd' );
+
+    milter_process({
+        'desc'   => 'Gtube',
+        'prefix' => 'config/rspamd',
+        'source' => 'gtube.eml',
+        'dest'   => 'rspamd-gtube.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    milter_process({
+        'desc'   => 'Gtube local',
+        'prefix' => 'config/rspamd',
+        'source' => 'gtube2.eml',
+        'dest'   => 'rspamd-gtube2.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'recipient2@example.net',
+    });
+
+    stop_milter();
+
+    return;
+}
+
+sub run_smtp_processing_rspamd {
+
+    start_milter( 'config/rspamd.smtp' );
+
+    smtp_process({
+        'desc'   => 'Gtube',
+        'prefix' => 'config/rspamd.smtp',
+        'source' => 'gtube.eml',
+        'dest'   => 'rspamd-gtube.smtp.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    smtp_process({
+        'desc'   => 'Gtube local',
+        'prefix' => 'config/rspamd.smtp',
+        'source' => 'gtube2.eml',
+        'dest'   => 'rspamd-gtube2.smtp.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'recipient2@example.net',
+    });
+
+    stop_milter();
+
+    return;
+}
+
 sub smtpput {
     my ( $args ) = @_;
 
