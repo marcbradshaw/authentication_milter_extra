@@ -138,7 +138,7 @@ sub eom_callback {
     my $http = HTTP::Tiny->new();
     my $response = $http->post( "http://$host:$port/check", { 'headers' => $headers, 'content' => $message } );
     if ( ! $response->{'success'} ) {
-        $self->log_error( 'RSpamD could not connect to server' );
+        $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} );
         return;
     }
 
