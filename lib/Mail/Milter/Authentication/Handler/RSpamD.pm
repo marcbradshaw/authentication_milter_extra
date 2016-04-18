@@ -110,6 +110,16 @@ sub body_callback {
     return;
 }
 
+sub get_auth_name {
+    my ($self) = @_;
+    my $protocol = Mail::Milter::Authentication::Config::get_config()->{'protocol'};
+    if ( $protocol ne 'milter' ) {
+        return 'unauthorized';
+    }
+    my $name = $self->get_symbol('{auth_authen}') || 'unauthorized';
+    return $name;
+}
+
 sub eom_callback {
     my ($self) = @_;
 
@@ -125,14 +135,14 @@ sub eom_callback {
 
     my $message = join( q{} , @{$self->{'lines'} } );
     my $headers = {
-        'Deliver-To' => $self->{'rcpt_to'},
+        'Deliver-To' => $user,
         'IP' => $self->ip_address(),
         'Helo' => $self->{'helo_name'},
         'From' => $self->{'mail_from'},
         'Queue-Id' => $queue_id,
-        'Rcpt' => $self->{'mail_to'},
+        'Rcpt' => $self->{'rcpt_to'},
         'Pass' => 'all', # all to check all filters
-        'User' => $user,
+        'User' => $self->get_auth_name(),
     };
 
     my $http = HTTP::Tiny->new();
