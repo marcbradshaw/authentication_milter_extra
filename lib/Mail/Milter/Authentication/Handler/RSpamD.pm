@@ -59,7 +59,7 @@ sub envfrom_callback {
 
 sub envrcpt_callback {
     my ( $self, $env_to ) = @_;
-    push $self->{'rcpt_to'}, $env_to;
+    push @{ $self->{'rcpt_to'} }, $env_to;
     return;
 }
 
