@@ -130,6 +130,7 @@ sub eom_callback {
 
     if ( ! $sa_client->ping() ) {
         $self->log_error( 'SpamAssassin could not connect to server' );
+        $self->add_auth_header('x-spam=temperror');
         return;
     }
 

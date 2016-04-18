@@ -139,6 +139,7 @@ sub eom_callback {
     my $response = $http->post( "http://$host:$port/check", { 'headers' => $headers, 'content' => $message } );
     if ( ! $response->{'success'} ) {
         $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} );
+        $self->add_auth_header('x-rspam=temperror');
         return;
     }
 
@@ -146,6 +147,7 @@ sub eom_callback {
     my $rspamd_data = eval{ $j->decode( $response->{'content'} ); };
     if ( ! exists( $rspamd_data->{'default'} ) ) {
         $self->log_error( 'RSpamD bad data from server' );
+        $self->add_auth_header('x-rspam=temperror');
         return;
     }
     my $spam = $rspamd_data->{ 'default' };
