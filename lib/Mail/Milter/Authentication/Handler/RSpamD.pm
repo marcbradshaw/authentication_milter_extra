@@ -129,8 +129,8 @@ sub eom_callback {
     my $port = $config->{'rs_port'} || 11333;
     my $user = $self->get_user();
 
-    $self->dbgout( 'RSpamD', $user, LOG_INFO );
-        
+    $self->dbgout( 'RSpamDUser', $user, LOG_INFO );
+
     my $queue_id = $self->get_symbol('i') || q{--};
 
     my $message = join( q{} , @{$self->{'lines'} } );
