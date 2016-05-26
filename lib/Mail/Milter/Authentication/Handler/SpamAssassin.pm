@@ -189,7 +189,7 @@ sub eom_callback {
             if ( $sa_status->{'score'} >= $config->{'hard_reject_at'} ) {
                 if ( ( ! $self->is_local_ip_address() ) && ( ! $self->is_trusted_ip_address() ) ) {
                     $self->reject_mail( '550 5.7.0 SPAM policy violation' );
-                    $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
+                    $self->dbgout( 'SpamAssassinReject', "Policy reject", LOG_INFO );
                 }
             }
         }
