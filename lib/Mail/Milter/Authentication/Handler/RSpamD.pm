@@ -16,6 +16,7 @@ sub default_config {
         'default_user'   => 'nobody',
         'rs_host'        => 'localhost',
         'rs_port'        => '11333',
+        'hard_reject'    => 1,
         'remove_headers' => 'yes',
     }
 }
@@ -173,6 +174,14 @@ sub eom_callback {
 
     if ( $action eq 'rewrite subject' ) {
         $action .= ' - ' . $spam->{'subject'};
+        ## ToDo - Rewrite the subject
+    }
+
+    if ( $action eq 'reject' ) {
+        if ( $config->{'hard_reject'} ) {
+            $self->reject_mail( '550 5.7.0 SPAM policy violation' );
+            $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
+        }
     }
 
     $self->prepend_header( 'X-Spam-score',  sprintf( '%.02f',  $spam->{'score'} ) );
@@ -231,9 +240,10 @@ Check email for spam using rspamd.
 =head1 CONFIGURATION
 
         "RSpamD" : {
-            "default_user" : "nobody",
-            "rs_host" : "localhost",
-            "rs_port" : "11333",
+            "default_user"   : "nobody",
+            "rs_host"        : "localhost",
+            "rs_port"        : "11333",
+            "hard_reject"    : "1",
             "remove_headers" : "yes"
         },
 
@@ -247,6 +257,7 @@ Add a block to the handlers section of your config as follows.
             "default_user"   : "nobody",
             "rs_host"        : "localhost",
             "rs_port"        : "11333",
+            "hard_reject"    : "1",
             "remove_headers" : "yes"
         },
 
