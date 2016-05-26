@@ -24,6 +24,7 @@ sub default_config {
         'default_user'   => 'nobody',
         'sa_host'        => 'localhost',
         'sa_port'        => '783',
+        'hard_reject_at' => 10,
         'remove_headers' => 'yes',
     }
 }
@@ -182,6 +183,17 @@ sub eom_callback {
     );
 
     $self->add_auth_header($header);
+
+    if ( $sa_status->{'isspam'} eq 'True' ) {
+        if ( $config->{'hard_reject_at'} ) {
+            if ( $sa_status->{'score'} >= $config->{'hard_reject_at'} ) {
+                if ( ( ! $self->is_local_ip_address() ) && ( ! $self->is_trusted_ip_address() ) ) {
+                    $self->reject_mail( '550 5.7.0 SPAM policy violation' );
+                    $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
+                }
+            }
+        }
+    }
    
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
@@ -224,6 +236,7 @@ Check email for spam using SpamAssassin spamd.
             "default_user" : "nobody",
             "sa_host" : "localhost",
             "sa_port" : "783",
+            "hard_reject_at" : "10",
             "remove_headers" : "yes"
         },
 
@@ -237,6 +250,7 @@ Add a block to the handlers section of your config as follows.
             "default_user"   : "nobody",
             "sa_host"        : "localhost",
             "sa_port"        : "783",
+            "hard_reject_at" : "10",
             "remove_headers" : "yes"
         },
 
