@@ -179,8 +179,10 @@ sub eom_callback {
 
     if ( $action eq 'reject' ) {
         if ( $config->{'hard_reject'} ) {
-            $self->reject_mail( '550 5.7.0 SPAM policy violation' );
-            $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
+            if ( ( ! $self->is_local_ip_address() ) && ( ! $self->is_trusted_ip_address() ) ) {
+                $self->reject_mail( '550 5.7.0 SPAM policy violation' );
+                $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
+            }
         }
     }
 
