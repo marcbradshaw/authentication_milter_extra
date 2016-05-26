@@ -146,10 +146,12 @@ sub eom_callback {
         'User' => $self->get_auth_name(),
     };
 
-    my $http = HTTP::Tiny->new();
+    my $http = HTTP::Tiny->new(
+        'keep_alive' => 0,
+    );
     my $response = $http->post( "http://$host:$port/check", { 'headers' => $headers, 'content' => $message } );
     if ( ! $response->{'success'} ) {
-        $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} );
+        $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} . ' - ' . $response->{'content'} );
         $self->add_auth_header('x-rspam=temperror');
         return;
     }
