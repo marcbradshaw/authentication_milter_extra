@@ -7,6 +7,7 @@ A Perl implementation of email authentication standards rolled up into a single 
 This repo provides the following additional modules.
 
 - SpamAssassin - Runs mail through SpamAssassin
+- RSpamD - Runs mail through rspamd
 - UserDB map local emails to local users (used in SpamAssassin module)
 
 UserDB map currently only supports a hash: style table.
