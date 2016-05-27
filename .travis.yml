@@ -20,7 +20,7 @@ before_install:
    - build-perl
    - perl -V
    - sudo apt-get update
-   - sudo apt-get install libdb5.3-dev
+   - sudo apt-get install libdb5.1-dev
 
 install:
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
