@@ -37,6 +37,7 @@ build_requires (
 
 requires (
     'Cwd'                   => 0,
+    'ClamAV::Client'        => 0,
     'DB_File'               => 0,
     'Mail::Milter::Authentication' => '1.1.0',
     'Mail::SpamAssassin'    => 0,

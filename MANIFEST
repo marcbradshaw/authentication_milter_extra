@@ -1,5 +1,6 @@
 Changes
 lib/Mail/Milter/Authentication/Extra.pm
+lib/Mail/Milter/Authentication/Handler/ClamAV.pm
 lib/Mail/Milter/Authentication/Handler/RSpamD.pm
 lib/Mail/Milter/Authentication/Handler/SpamAssassin.pm
 lib/Mail/Milter/Authentication/Handler/UserDB/Hash.pm
@@ -37,6 +38,7 @@ t/data/example/rspamd-gtube2.eml
 t/data/example/rspamd-gtube2.smtp.eml
 t/data/example/rspamd-gtube.eml
 t/data/example/rspamd-gtube.smtp.eml
+t/data/example/virus.eml
 t/data/source/gtube2.eml
 t/data/source/gtube.eml
 t/dev-boilerplate.t

@@ -261,6 +261,68 @@ sub run_smtp_processing_spam {
     return;
 }
 
+sub run_milter_processing_clamav {
+
+    start_milter( 'config/clamav' );
+
+    milter_process({
+        'desc'   => 'Virus',
+        'prefix' => 'config/clamav',
+        'source' => 'virus.eml',
+        'dest'   => 'virus.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    milter_process({
+        'desc'   => 'No Virus',
+        'prefix' => 'config/clamav',
+        'source' => 'gtube2.eml',
+        'dest'   => 'novirus.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'recipient2@example.net',
+    });
+
+    stop_milter();
+
+    return;
+}
+
+sub run_smtp_processing_clamav {
+
+    start_milter( 'config/clamav.smtp' );
+
+    smtp_process({
+        'desc'   => 'Virus',
+        'prefix' => 'config/clamav.smtp',
+        'source' => 'virus.eml',
+        'dest'   => 'virus.smtp.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'marc@fastmail.com',
+    });
+
+    smtp_process({
+        'desc'   => 'No Virus',
+        'prefix' => 'config/clamav.smtp',
+        'source' => 'gtube2.eml',
+        'dest'   => 'novirus.smtp.eml',
+        'ip'     => '74.125.82.171',
+        'name'   => 'mail-we0-f171.google.com',
+        'from'   => 'marc@marcbradshaw.net',
+        'to'     => 'recipient2@example.net',
+    });
+
+    stop_milter();
+
+    return;
+}
+
 sub run_milter_processing_rspamd {
 
     start_milter( 'config/rspamd' );
