@@ -19,7 +19,7 @@ before_install:
    - source ~/travis-perl-helpers/init
    - build-perl
    - perl -V
-   - sudo apt-get -qq update
+   - sudo apt-get update
    - sudo apt-get install libdb5.3-dev
 
 install:
