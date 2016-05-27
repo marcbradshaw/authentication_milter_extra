@@ -33,5 +33,6 @@ install:
     - cpanm --quiet --notest Net::DNS Net::IP Net::Server
     - cpanm --quiet --notest Pod::Usage Proc::ProcessTable Socket Sys::Hostname Sys::Syslog
     - cpanm --quiet --notest Mail::SpamAssassin Mail::SpamAssassin::Client DB_File Test::MockModule
+    - cpanm --quiet --notest ClamAV::Client
     - cpanm --quiet --notest git://github.com/fastmailops/mail-dmarc.git@fastmail
     - cpanm --quiet --notest git://github.com/fastmail/authentication_milter.git
