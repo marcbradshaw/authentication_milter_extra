@@ -23,8 +23,8 @@ sub default_config {
 
 sub get_user {
     my ( $self ) = @_;
-    my $spf_handler = $self->get_handler('UserDB');
-    my $user = $spf_handler->{'local_user'};
+    my $user_handler = $self->get_handler('UserDB');
+    my $user = $user_handler->{'local_user'};
     return $user if $user;
     my $config = $self->handler_config();
     return $config->{'default_user'};
