@@ -40,6 +40,7 @@ sub check_reload {
 
 sub get_user_from_address {
     my ( $self, $address ) = @_;
+    $address =~ s/\+.*@/@/;
     my $table = $self->get_table();
     if ( exists $table->{ lc $address } ) {
         return $table->{ lc $address };
