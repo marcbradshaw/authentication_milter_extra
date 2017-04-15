@@ -29,6 +29,12 @@ sub default_config {
     }
 }
 
+sub register_metrics {
+    return {
+        'spamassassin_total' => 'The number of emails processed for SpamAssassin',
+    };
+}
+
 sub get_user {
     my ( $self ) = @_;
     my $user_handler = $self->get_handler('UserDB');
@@ -49,13 +55,15 @@ sub remove_header {
     push @{ $self->{'remove_headers'}->{ lc $key } }, $value;
     return;
 }
-    
+
 sub envfrom_callback {
     my ($self) = @_;
     $self->{'lines'} = [];
     $self->{'rcpt_to'} = q{};
     delete $self->{'header_index'};
     delete $self->{'remove_headers'};
+    $self->{'metrics_data'} = {};
+    $self->{ 'metrics_data' }->{ 'header_removed' } = 'no';
     return;
 }
 
@@ -69,7 +77,7 @@ sub header_callback {
     my ( $self, $header, $value ) = @_;
     push @{$self->{'lines'}} ,$header . ': ' . $value . "\r\n";
     my $config = $self->handler_config();
-    
+
     return if ( $self->is_trusted_ip_address() );
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
@@ -84,6 +92,7 @@ sub header_callback {
             $self->{'header_index'}->{ lc $header_type } =
             $self->{'header_index'}->{ lc $header_type } + 1;
             $self->remove_header( $header_type, $self->{'header_index'}->{ lc $header_type } );
+            $self->{ 'metrics_data' }->{ 'header_removed' } = 'yes';
             if ( lc $config->{'remove_headers'} ne 'silent' ) {
                 my $forged_header =
                   '(Received ' . $header_type . ' header removed by '
@@ -132,6 +141,7 @@ sub eom_callback {
     if ( ! $sa_client->ping() ) {
         $self->log_error( 'SpamAssassin could not connect to server' );
         $self->add_auth_header('x-spam=temperror');
+        $self->{ 'metrics_data' }->{ 'result' } = 'servererror';
         return;
     }
 
@@ -184,6 +194,8 @@ sub eom_callback {
 
     $self->add_auth_header($header);
 
+    $self->{ 'metrics_data' }->{ 'result' } = ( $sa_status->{'isspam'} eq 'False' ? 'pass' : 'fail' );
+
     if ( $sa_status->{'isspam'} eq 'True' ) {
         if ( $config->{'hard_reject_at'} ) {
             if ( $sa_status->{'score'} >= $config->{'hard_reject_at'} ) {
@@ -194,7 +206,7 @@ sub eom_callback {
             }
         }
     }
-   
+
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
     foreach my $header_type ( qw{ X-Spam-score X-Spam-Status X-Spam-hits } ) {
@@ -211,10 +223,14 @@ sub eom_callback {
 
 sub close_callback {
     my ( $self ) = @_;
+
+    $self->metric_count( 'spamassassin_total', $self->{ 'metrics_data' } );
+
     delete $self->{'lines'};
     delete $self->{'rcpt_to'};
     delete $self->{'remove_headers'};
     delete $self->{'header_index'};
+    delete $self->{'metrics_data'};
     return;
 }
 

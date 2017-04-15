@@ -16,6 +16,12 @@ sub default_config {
     };
 }
 
+sub register_metrics {
+    return {
+        'userdb_total' => 'The number of emails processed for UserDB',
+    };
+}
+
 sub setup_callback {
     my ( $self ) = @_;
     delete $self->{'local_user'};
@@ -36,6 +42,10 @@ sub eoh_callback {
     return if ! $config->{'add_header'};
     if ( $self->{'local_user'} ) {
         $self->add_auth_header('x-local-user=pass');
+        $self->metric_count( 'userdb_total', { 'result' => 'pass' } );
+    }
+    else {
+        $self->metric_count( 'userdb_total', { 'result' => 'fail' } );
     }
     return;
 }

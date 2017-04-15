@@ -21,6 +21,12 @@ sub default_config {
     }
 }
 
+sub register_metrics {
+    return {
+        'rspamd_total' => 'The number of emails processed for RSpamD',
+    };
+}
+
 sub get_user {
     my ( $self ) = @_;
     my $user_handler = $self->get_handler('UserDB');
@@ -55,6 +61,8 @@ sub envfrom_callback {
     $self->{'mail_from'} = $from;
     delete $self->{'header_index'};
     delete $self->{'remove_headers'};
+    $self->{'metrics_data'} = {};
+    $self->{ 'metrics_data' }->{ 'header_removed' } = 'no';
     return;
 }
 
@@ -68,7 +76,7 @@ sub header_callback {
     my ( $self, $header, $value ) = @_;
     push @{$self->{'lines'}} ,$header . ': ' . $value . "\r\n";
     my $config = $self->handler_config();
-    
+
     return if ( $self->is_trusted_ip_address() );
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
@@ -83,6 +91,7 @@ sub header_callback {
             $self->{'header_index'}->{ lc $header_type } =
             $self->{'header_index'}->{ lc $header_type } + 1;
             $self->remove_header( $header_type, $self->{'header_index'}->{ lc $header_type } );
+            $self->{ 'metrics_data' }->{ 'header_removed' } = 'yes';
             if ( lc $config->{'remove_headers'} ne 'silent' ) {
                 my $forged_header =
                   '(Received ' . $header_type . ' header removed by '
@@ -153,6 +162,7 @@ sub eom_callback {
     if ( ! $response->{'success'} ) {
         $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} . ' - ' . $response->{'content'} );
         $self->add_auth_header('x-rspam=temperror');
+        $self->{ 'metrics_data' }->{ 'result' } = 'servererror';
         return;
     }
 
@@ -161,6 +171,7 @@ sub eom_callback {
     if ( ! exists( $rspamd_data->{'default'} ) ) {
         $self->log_error( 'RSpamD bad data from server' );
         $self->add_auth_header('x-rspam=temperror');
+        $self->{ 'metrics_data' }->{ 'result' } = 'serverdataerror';
         return;
     }
     my $spam = $rspamd_data->{ 'default' };
@@ -204,6 +215,8 @@ sub eom_callback {
 
     $self->add_auth_header($header);
 
+    $self->{ 'metrics_data' }->{ 'result' } = ( $spam->{'is_spam'} eq 0 ? 'pass' : 'fail' );
+
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
     foreach my $header_type ( qw{ X-Spam-score X-Spam-Status X-Spam-Action } ) {
@@ -220,12 +233,16 @@ sub eom_callback {
 
 sub close_callback {
     my ( $self ) = @_;
+
+    $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
+
     delete $self->{'lines'};
     delete $self->{'mail_from'};
     delete $self->{'helo_name'};
     delete $self->{'rcpt_to'};
     delete $self->{'remove_headers'};
     delete $self->{'header_index'};
+    delete $self->{'metrics_data'};
     return;
 }
 

@@ -20,6 +20,12 @@ sub default_config {
     };
 }
 
+sub register_metrics {
+    return {
+        'clamav_total' => 'The number of emails processed for ClamAV',
+    };
+}
+
 sub envfrom_callback {
     my ($self, $from) = @_;
     $self->{'lines'} = [];
@@ -60,12 +66,14 @@ sub eom_callback {
     if ( ! $scanner ) {
         $self->log_error( 'ClamAVError: No Scanner' );
         $self->add_auth_header('x-virus=temperror');
+        $self->metric_count( 'clamav_total', { 'result' => 'noscanner' } );
         return;
     }
 
     if ( ! $scanner->ping() ) {
         $self->log_error( 'ClamAVError: Scanner Ping Failed' );
         $self->add_auth_header('x-virus=temperror');
+        $self->metric_count( 'clamav_total', { 'result' => 'scannerpingfail' } );
         return;
     }
 
@@ -74,6 +82,7 @@ sub eom_callback {
 
     if ( $result ) {
         $self->dbgout( 'ClamAV: Virus Found', $result, LOG_INFO );
+        $self->metric_count( 'clamav_total', { 'result' => 'fail' } );
         my $header = join(
             q{ },
             $self->format_header_entry(
@@ -91,6 +100,7 @@ sub eom_callback {
         }
     }
     else {
+        $self->metric_count( 'clamav_total', { 'result' => 'pass' } );
         $self->add_auth_header('x-virus=pass');
     }
 
