@@ -1,5 +1,7 @@
 Revision history for Mail-Milter-Authentication-Extra
 
+1.1.2   FUTURE
+
 1.1.1   2017-04-17
         - RSpamD Handler
         - Metrics gathering for prometheus
