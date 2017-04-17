@@ -163,6 +163,7 @@ sub eom_callback {
         $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} . ' - ' . $response->{'content'} );
         $self->add_auth_header('x-rspam=temperror');
         $self->{ 'metrics_data' }->{ 'result' } = 'servererror';
+        $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
         return;
     }
 
@@ -172,6 +173,7 @@ sub eom_callback {
         $self->log_error( 'RSpamD bad data from server' );
         $self->add_auth_header('x-rspam=temperror');
         $self->{ 'metrics_data' }->{ 'result' } = 'serverdataerror';
+        $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
         return;
     }
     my $spam = $rspamd_data->{ 'default' };
@@ -217,6 +219,7 @@ sub eom_callback {
 
     $self->{ 'metrics_data' }->{ 'result' } = ( $spam->{'is_spam'} eq 0 ? 'pass' : 'fail' );
 
+    $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
     return if ( lc $config->{'remove_headers'} eq 'no' );
 
     foreach my $header_type ( qw{ X-Spam-score X-Spam-Status X-Spam-Action } ) {
@@ -233,8 +236,6 @@ sub eom_callback {
 
 sub close_callback {
     my ( $self ) = @_;
-
-    $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
 
     delete $self->{'lines'};
     delete $self->{'mail_from'};
