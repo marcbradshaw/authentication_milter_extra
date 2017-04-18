@@ -39,10 +39,11 @@ sub envrcpt_callback {
 sub eoh_callback {
     my ( $self ) = @_;
     my $config = $self->handler_config();
-    return if ! $config->{'add_header'};
     if ( $self->{'local_user'} ) {
-        $self->add_auth_header('x-local-user=pass');
         $self->metric_count( 'userdb_total', { 'result' => 'pass' } );
+        if ( $config->{'add_header'} ) {
+            $self->add_auth_header('x-local-user=pass');
+        }
     }
     else {
         $self->metric_count( 'userdb_total', { 'result' => 'fail' } );
