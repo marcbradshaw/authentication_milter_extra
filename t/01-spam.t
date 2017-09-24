@@ -37,7 +37,7 @@ chdir 't';
 plan tests => 4;
 
 {
-    system 'rm -rf tmp';
+    #system 'rm -rf tmp';
     mkdir 'tmp';
     mkdir 'tmp/result';
 
