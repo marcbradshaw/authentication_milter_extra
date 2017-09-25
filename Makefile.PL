@@ -26,13 +26,14 @@ configure_requires (
 );
 
 build_requires (
-    'Test::More'           => 0,
-    'Test::File::Contents' => 0,
-    'Test::Perl::Critic'   => 0,
-    'Test::CheckManifest'  => 0,
-    'Test::Pod::Coverage'  => 0,
-    'Test::Pod'            => 0,
-    'Test::MockModule'     => 0,
+    'Test::More'               => 0,
+    'Test::File::Contents'     => 0,
+    'Test::Perl::Critic'       => 0,
+    'Test::CheckManifest'      => 0,
+    'Test::Pod::Coverage'      => 0,
+    'Test::Pod'                => 0,
+    'Test::MockModule'         => 0,
+    'Net::DNS::Resolver::Mock' => 0,
 );
 
 requires (
