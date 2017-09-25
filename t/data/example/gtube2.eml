@@ -1,4 +1,5 @@
 Authentication-Results: test.module;
+    x-local-user=pass;
     x-spam=fail score=1000.00 required=5.00
 X-Spam-hits: GTUBE,NO_RECEIVED,NO_RELAYS,FAKE_SPAMD
 X-Spam-Status: Yes, score=1000.00 required=5.00
