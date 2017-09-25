@@ -17,5 +17,5 @@
    "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"envfrom\",handler=\"rspamd\"}" : "2",
    "authmilter_userdb_total{ident=\"test_authentication_milter_test\", result=\"pass\"}" : "1",
    "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"close\",handler=\"userdb\"}" : "4",
-   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"eom\",handler=\"rspamd\"}" : "2",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"eom\",handler=\"rspamd\"}" : "2"
 }
