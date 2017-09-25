@@ -1,0 +1,13 @@
+{
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"eoh\",handler=\"clamav\"}" : "2",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"close\",handler=\"clamav\"}" : "4",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"header\",handler=\"clamav\"}" : "22",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"envfrom\",handler=\"clamav\"}" : "2",
+   "authmilter_clamav_total{ident=\"test_authentication_milter_test\"}" : "0",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\"}" : "0",
+   "authmilter_clamav_total{ident=\"test_authentication_milter_test\", result=\"fail\"}" : "1",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"eom\",handler=\"clamav\"}" : "2",
+   "authmilter_callback_error_total{ident=\"test_authentication_milter_test\"}" : "0",
+   "authmilter_time_microseconds_total{ident=\"test_authentication_milter_test\", callback=\"body\",handler=\"clamav\"}" : "2",
+   "authmilter_clamav_total{ident=\"test_authentication_milter_test\", result=\"pass\"}" : "1"
+}
