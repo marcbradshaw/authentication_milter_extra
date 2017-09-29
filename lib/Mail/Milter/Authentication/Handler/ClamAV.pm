@@ -20,6 +20,13 @@ sub default_config {
     };
 }
 
+sub grafana_rows {
+    my ( $self ) = @_;
+    my @rows;
+    push @rows, $self->get_json( 'ClamAV_metrics' );
+    return \@rows;
+}
+
 sub register_metrics {
     return {
         'clamav_total' => 'The number of emails processed for ClamAV',

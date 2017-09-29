@@ -29,6 +29,13 @@ sub default_config {
     }
 }
 
+sub grafana_rows {
+    my ( $self ) = @_;
+    my @rows;
+    push @rows, $self->get_json( 'SpamAssassin_metrics' );
+    return \@rows;
+}
+
 sub register_metrics {
     return {
         'spamassassin_total' => 'The number of emails processed for SpamAssassin',

@@ -16,6 +16,13 @@ sub default_config {
     };
 }
 
+sub grafana_rows {
+    my ( $self ) = @_;
+    my @rows;
+    push @rows, $self->get_json( 'UserDB_metrics' );
+    return \@rows;
+}
+
 sub register_metrics {
     return {
         'userdb_total' => 'The number of emails processed for UserDB',

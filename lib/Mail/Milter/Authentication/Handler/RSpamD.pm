@@ -21,6 +21,13 @@ sub default_config {
     }
 }
 
+sub grafana_rows {
+    my ( $self ) = @_;
+    my @rows;
+    push @rows, $self->get_json( 'RSpamD_metrics' );
+    return \@rows;
+}
+
 sub register_metrics {
     return {
         'rspamd_total' => 'The number of emails processed for RSpamD',
