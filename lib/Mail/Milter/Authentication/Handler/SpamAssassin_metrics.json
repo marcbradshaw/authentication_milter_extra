@@ -7,7 +7,7 @@
          "bars" : false,
          "dashLength" : 10,
          "dashes" : false,
-         "datasource" : "${DS_PROMETHIUS}",
+         "datasource" : "${DS_PROMETHEUS}",
          "fill" : 1,
          "id" : 25,
          "legend" : {
@@ -35,10 +35,11 @@
          "targets" : [
             {
                "expr" : "sum(rate(authmilter_spamassassin_total{node=~\"$node\"}[$ratetime])) by(result)",
+               "format" : "time_series",
                "intervalFactor" : 2,
                "legendFormat" : "{{ result }}",
                "refId" : "A",
-               "step" : 20
+               "step" : 4
             }
          ],
          "thresholds" : [],
