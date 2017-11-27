@@ -50,3 +50,4 @@ t/dev-critic.t
 t/dev-manifest.t
 t/dev-pod.t
 t/perlcriticrc
+t/zonefile
