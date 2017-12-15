@@ -43,6 +43,12 @@ t/data/example/rspamd-gtube.smtp.eml
 t/data/example/rspamd-gtube2.eml
 t/data/example/rspamd-gtube2.smtp.eml
 t/data/example/virus.eml
+t/data/metrics/milter_clam.json
+t/data/metrics/milter_rspamd.json
+t/data/metrics/milter_spam.json
+t/data/metrics/smap_spam.json
+t/data/metrics/smtp_clam.json
+t/data/metrics/smtp_rspamd.json
 t/data/source/gtube.eml
 t/data/source/gtube2.eml
 t/dev-boilerplate.t
