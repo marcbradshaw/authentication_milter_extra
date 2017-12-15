@@ -17,6 +17,7 @@ lib/Mail/Milter/Authentication/Handler/UserDB_metrics.json
 t/00-load.t
 t/01-spam.t
 t/02-rspamd.t
+t/03-clamav.t
 t/AuthMilterTest.pm
 t/config/rspamd.smtp/authentication_milter.json
 t/config/rspamd.smtp/mail-dmarc.ini

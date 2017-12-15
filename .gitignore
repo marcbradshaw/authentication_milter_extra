@@ -18,3 +18,4 @@ cover_db/
 /pm_to_blib
 /Mail-Milter-Authentication-*
 /Mail-Milter-Authentication-*.tar.gz
+t/tmp
