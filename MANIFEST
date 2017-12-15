@@ -19,6 +19,14 @@ t/01-spam.t
 t/02-rspamd.t
 t/03-clamav.t
 t/AuthMilterTest.pm
+t/config/clamav.smtp/authentication_milter.json
+t/config/clamav.smtp/mail-dmarc.ini
+t/config/clamav.smtp/virtusertable
+t/config/clamav.smtp/virtusertable.db
+t/config/clamav/authentication_milter.json
+t/config/clamav/mail-dmarc.ini
+t/config/clamav/virtusertable
+t/config/clamav/virtusertable.db
 t/config/rspamd.smtp/authentication_milter.json
 t/config/rspamd.smtp/mail-dmarc.ini
 t/config/rspamd.smtp/virtusertable
@@ -39,11 +47,14 @@ t/data/example/gtube.eml
 t/data/example/gtube.smtp.eml
 t/data/example/gtube2.eml
 t/data/example/gtube2.smtp.eml
+t/data/example/novirus.eml
+t/data/example/novirus.smtp.eml
 t/data/example/rspamd-gtube.eml
 t/data/example/rspamd-gtube.smtp.eml
 t/data/example/rspamd-gtube2.eml
 t/data/example/rspamd-gtube2.smtp.eml
 t/data/example/virus.eml
+t/data/example/virus.smtp.eml
 t/data/metrics/milter_clam.json
 t/data/metrics/milter_rspamd.json
 t/data/metrics/milter_spam.json
@@ -52,6 +63,7 @@ t/data/metrics/smtp_clam.json
 t/data/metrics/smtp_rspamd.json
 t/data/source/gtube.eml
 t/data/source/gtube2.eml
+t/data/source/virus.eml
 t/dev-boilerplate.t
 t/dev-critic.t
 t/dev-manifest.t
