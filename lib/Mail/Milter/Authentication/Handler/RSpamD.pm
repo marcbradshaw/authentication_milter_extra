@@ -8,6 +8,9 @@ use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
 use HTTP::Tiny;
 use JSON;
+use Mail::AuthenticationResults::Header::Entry;
+use Mail::AuthenticationResults::Header::SubEntry;
+use Mail::AuthenticationResults::Header::Comment;
 
 use Data::Dumper;
 
@@ -168,7 +171,8 @@ sub eom_callback {
     my $response = $http->post( "http://$host:$port/check", { 'headers' => $headers, 'content' => $message } );
     if ( ! $response->{'success'} ) {
         $self->log_error( 'RSpamD could not connect to server - ' . $response->{'status'} . ' - ' . $response->{'reason'} . ' - ' . $response->{'content'} );
-        $self->add_auth_header('x-rspam=temperror');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-rspam' )->set_value( 'temperror' );
+        $self->add_auth_header( $header );
         $self->{ 'metrics_data' }->{ 'result' } = 'servererror';
         $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
         return;
@@ -178,7 +182,8 @@ sub eom_callback {
     my $rspamd_data = eval{ $j->decode( $response->{'content'} ); };
     if ( ! exists( $rspamd_data->{'default'} ) ) {
         $self->log_error( 'RSpamD bad data from server' );
-        $self->add_auth_header('x-rspam=temperror');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-rspam' )->set_value( 'temperror' );
+        $self->add_auth_header( $header );
         $self->{ 'metrics_data' }->{ 'result' } = 'serverdataerror';
         $self->metric_count( 'rspamd_total', $self->{ 'metrics_data' } );
         return;
@@ -212,16 +217,9 @@ sub eom_callback {
     $self->prepend_header( 'X-Spam-Status', $status );
     $self->prepend_header( 'X-Spam-Action', $action );
 
-    my $header = join(
-        q{ },
-        $self->format_header_entry(
-            'x-rspam',
-            ( $spam->{'is_spam'} eq 0 ? 'pass' : 'fail' ),
-        ),
-        $self->format_header_entry( 'score',    sprintf ( '%.02f', $spam->{'score'} ) ),
-        $self->format_header_entry( 'required', sprintf ( '%.02f', $spam->{'required_score'} ) ),
-    );
-
+    my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-rspam' )->set_value( ( $spam->{'is_spam'} eq 0 ? 'pass' : 'fail' ) );
+    $header->add_child( Mail::AuthenticationResults::Header::SubEntry->new()->set_key( 'score' )->set_value( sprintf ( '%.02f', $spam->{'score'} ) ) );
+    $header->add_child( Mail::AuthenticationResults::Header::SubEntry->new()->set_key( 'required' )->set_value( sprintf ( '%.02f', $spam->{'required_score'} ) ) );
     $self->add_auth_header($header);
 
     $self->{ 'metrics_data' }->{ 'result' } = ( $spam->{'is_spam'} eq 0 ? 'pass' : 'fail' );

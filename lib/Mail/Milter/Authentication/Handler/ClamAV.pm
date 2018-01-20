@@ -8,6 +8,9 @@ use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
 use ClamAV::Client;
 use JSON;
+use Mail::AuthenticationResults::Header::Entry;
+use Mail::AuthenticationResults::Header::SubEntry;
+use Mail::AuthenticationResults::Header::Comment;
 
 use Data::Dumper;
 
@@ -72,14 +75,16 @@ sub eom_callback {
 
     if ( ! $scanner ) {
         $self->log_error( 'ClamAVError: No Scanner' );
-        $self->add_auth_header('x-virus=temperror');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'temperror' );
+        $self->add_auth_header( $header );
         $self->metric_count( 'clamav_total', { 'result' => 'noscanner' } );
         return;
     }
 
     if ( ! $scanner->ping() ) {
         $self->log_error( 'ClamAVError: Scanner Ping Failed' );
-        $self->add_auth_header('x-virus=temperror');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'temperror' );
+        $self->add_auth_header( $header );
         $self->metric_count( 'clamav_total', { 'result' => 'scannerpingfail' } );
         return;
     }
@@ -90,14 +95,8 @@ sub eom_callback {
     if ( $result ) {
         $self->dbgout( 'ClamAV: Virus Found', $result, LOG_INFO );
         $self->metric_count( 'clamav_total', { 'result' => 'fail' } );
-        my $header = join(
-            q{ },
-            $self->format_header_entry(
-                'x-virus',
-                'fail',
-            ),
-            '(' . $self->format_header_comment( $result ) . ')',
-        );
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'fail' );
+        $header->add_child( Mail::AuthenticationResults::Header::Comment->new()->set_value( $result ) );
         $self->add_auth_header($header);
         if ( $config->{'hard_reject'} ) {
             if ( ( ! $self->is_local_ip_address() ) && ( ! $self->is_trusted_ip_address() ) ) {
@@ -108,7 +107,8 @@ sub eom_callback {
     }
     else {
         $self->metric_count( 'clamav_total', { 'result' => 'pass' } );
-        $self->add_auth_header('x-virus=pass');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'pass' );
+        $self->add_auth_header($header);
     }
 
     return;

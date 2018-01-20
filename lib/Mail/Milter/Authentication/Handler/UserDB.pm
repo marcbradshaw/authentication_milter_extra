@@ -4,6 +4,9 @@ use warnings;
 use DB_File;
 use Mail::Milter::Authentication::Handler::UserDB::Hash;
 use Sys::Syslog qw{:standard :macros};
+use Mail::AuthenticationResults::Header::Entry;
+use Mail::AuthenticationResults::Header::SubEntry;
+use Mail::AuthenticationResults::Header::Comment;
 use base 'Mail::Milter::Authentication::Handler';
 use version; our $VERSION = version->declare('v1.1.5');
 
@@ -49,7 +52,8 @@ sub eoh_callback {
     if ( $self->{'local_user'} ) {
         $self->metric_count( 'userdb_total', { 'result' => 'pass' } );
         if ( $config->{'add_header'} ) {
-            $self->add_auth_header('x-local-user=pass');
+            my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-local-user' )->set_value( 'pass' );
+            $self->add_auth_header( $header );
         }
     }
     else {

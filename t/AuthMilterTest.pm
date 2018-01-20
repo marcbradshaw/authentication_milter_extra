@@ -26,9 +26,9 @@ our $MASTER_PROCESS_PID = $$;
 
 sub run_milter_processing_spam {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/spam/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/spam/virtusertable' );
+    #}
 
     start_milter( 'config/spam' );
 
@@ -62,9 +62,9 @@ sub run_milter_processing_spam {
 
 sub run_smtp_processing_spam {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/spam.smtp/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/spam.smtp/virtusertable' );
+    #}
 
     start_milter( 'config/spam.smtp' );
 
@@ -98,9 +98,9 @@ sub run_smtp_processing_spam {
 
 sub run_milter_processing_clamav {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/clamav/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/clamav/virtusertable' );
+    #}
 
     start_milter( 'config/clamav' );
 
@@ -134,9 +134,9 @@ sub run_milter_processing_clamav {
 
 sub run_smtp_processing_clamav {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/clamav.smtp/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/clamav.smtp/virtusertable' );
+    #}
 
     start_milter( 'config/clamav.smtp' );
 
@@ -170,9 +170,9 @@ sub run_smtp_processing_clamav {
 
 sub run_milter_processing_rspamd {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/rspamd/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/rspamd/virtusertable' );
+    #}
 
     start_milter( 'config/rspamd' );
 
@@ -206,9 +206,9 @@ sub run_milter_processing_rspamd {
 
 sub run_smtp_processing_rspamd {
 
-    if ( -e '/usr/sbin/postmap' ) {
-        system( '/usr/sbin/postmap', 'config/rspamd.smtp/virtusertable' );
-    }
+    #if ( -e '/usr/sbin/postmap' ) {
+    #    system( '/usr/sbin/postmap', 'config/rspamd.smtp/virtusertable' );
+    #}
 
     start_milter( 'config/rspamd.smtp' );
 

@@ -6,6 +6,9 @@ use version; our $VERSION = version->declare('v1.1.5');
 
 use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
+use Mail::AuthenticationResults::Header::Entry;
+use Mail::AuthenticationResults::Header::SubEntry;
+use Mail::AuthenticationResults::Header::Comment;
 
 use Mail::SpamAssassin;
 use Mail::SpamAssassin::Client;
@@ -147,7 +150,8 @@ sub eom_callback {
 
     if ( ! $sa_client->ping() ) {
         $self->log_error( 'SpamAssassin could not connect to server' );
-        $self->add_auth_header('x-spam=temperror');
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-spam' )->set_value( 'temperror' );
+        $self->add_auth_header( $header );
         $self->{ 'metrics_data' }->{ 'result' } = 'servererror';
         $self->metric_count( 'spamassassin_total', $self->{ 'metrics_data' } );
         return;
@@ -190,16 +194,9 @@ sub eom_callback {
     $self->prepend_header( 'X-Spam-Status', $status );
     $self->prepend_header( 'X-Spam-hits',   $hits );
 
-    my $header = join(
-        q{ },
-        $self->format_header_entry(
-            'x-spam',
-            ( $sa_status->{'isspam'} eq 'False' ? 'pass' : 'fail' ),
-        ),
-        $self->format_header_entry( 'score',    sprintf ( '%.02f', $sa_status->{'score'} ) ),
-        $self->format_header_entry( 'required', sprintf ( '%.02f', $sa_status->{'threshold'} ) ),
-    );
-
+    my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-spam' )->set_value( ( $sa_status->{'isspam'} eq 'False' ? 'pass' : 'fail' ) );
+    $header->add_child( Mail::AuthenticationResults::Header::SubEntry->new()->set_key( 'score' )->set_value( sprintf ( '%.02f', $sa_status->{'score'} ) ) );
+    $header->add_child( Mail::AuthenticationResults::Header::SubEntry->new()->set_key( 'required' )->set_value( sprintf ( '%.02f', $sa_status->{'threshold'} ) ) );
     $self->add_auth_header($header);
 
     $self->{ 'metrics_data' }->{ 'result' } = ( $sa_status->{'isspam'} eq 'False' ? 'pass' : 'fail' );
