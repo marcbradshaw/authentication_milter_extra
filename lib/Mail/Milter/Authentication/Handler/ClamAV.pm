@@ -75,7 +75,7 @@ sub eom_callback {
 
     if ( ! $scanner ) {
         $self->log_error( 'ClamAVError: No Scanner' );
-        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'temperror' );
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->safe_set_value( 'temperror' );
         $self->add_auth_header( $header );
         $self->metric_count( 'clamav_total', { 'result' => 'noscanner' } );
         return;
@@ -83,7 +83,7 @@ sub eom_callback {
 
     if ( ! $scanner->ping() ) {
         $self->log_error( 'ClamAVError: Scanner Ping Failed' );
-        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'temperror' );
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->safe_set_value( 'temperror' );
         $self->add_auth_header( $header );
         $self->metric_count( 'clamav_total', { 'result' => 'scannerpingfail' } );
         return;
@@ -95,8 +95,8 @@ sub eom_callback {
     if ( $result ) {
         $self->dbgout( 'ClamAV: Virus Found', $result, LOG_INFO );
         $self->metric_count( 'clamav_total', { 'result' => 'fail' } );
-        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'fail' );
-        $header->add_child( Mail::AuthenticationResults::Header::Comment->new()->set_value( $result ) );
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->safe_set_value( 'fail' );
+        $header->add_child( Mail::AuthenticationResults::Header::Comment->new()->safe_set_value( $result ) );
         $self->add_auth_header($header);
         if ( $config->{'hard_reject'} ) {
             if ( ( ! $self->is_local_ip_address() ) && ( ! $self->is_trusted_ip_address() ) ) {
@@ -107,7 +107,7 @@ sub eom_callback {
     }
     else {
         $self->metric_count( 'clamav_total', { 'result' => 'pass' } );
-        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->set_value( 'pass' );
+        my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-virus' )->safe_set_value( 'pass' );
         $self->add_auth_header($header);
     }
 

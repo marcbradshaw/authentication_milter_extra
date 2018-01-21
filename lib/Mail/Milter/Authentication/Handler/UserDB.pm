@@ -52,7 +52,7 @@ sub eoh_callback {
     if ( $self->{'local_user'} ) {
         $self->metric_count( 'userdb_total', { 'result' => 'pass' } );
         if ( $config->{'add_header'} ) {
-            my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-local-user' )->set_value( 'pass' );
+            my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-local-user' )->safe_set_value( 'pass' );
             $self->add_auth_header( $header );
         }
     }
