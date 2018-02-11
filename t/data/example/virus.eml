@@ -1,5 +1,5 @@
 Authentication-Results: test.module;
-    x-virus=fail (Mock ClamAV )
+    x-virus=fail (Mock ClamAV)
 From: ClamAV
 To: ClamAV
 Subject: ClamAV Test File
