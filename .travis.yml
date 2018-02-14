@@ -1,5 +1,7 @@
 language: perl
 perl:
+  - "5.26"
+  - "5.24"
   - "5.22"
   - "5.20"
   - "5.18"
@@ -12,6 +14,11 @@ perl:
 #  only:
 #    - releases
 
+matrix:
+  include:
+    - perl: 5.26
+      env: COVERAGE=1
+
 before_install:
    - git config --global user.name "TravisCI"
    - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
@@ -20,6 +27,8 @@ before_install:
    - perl -V
    - sudo apt-get update
    - sudo apt-get install libdb5.1-dev
+   - cpanm -n Devel::Cover::Report::Coveralls
+   - coverage-setup
 
 install:
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
@@ -35,3 +44,8 @@ install:
     - cpanm --quiet --notest ClamAV::Client
     - cpanm --quiet --notest git://github.com/fastmailops/mail-dmarc.git@fastmail
     - cpanm --quiet --notest git://github.com/fastmail/authentication_milter.git@MailAuthenticationResultObject
+    - cpan-install --coverage
+
+after_success:
+  - coverage-report
+
