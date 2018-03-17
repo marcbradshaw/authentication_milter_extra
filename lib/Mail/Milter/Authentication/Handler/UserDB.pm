@@ -8,7 +8,8 @@ use Mail::AuthenticationResults::Header::Entry;
 use Mail::AuthenticationResults::Header::SubEntry;
 use Mail::AuthenticationResults::Header::Comment;
 use base 'Mail::Milter::Authentication::Handler';
-use version; our $VERSION = version->declare('v1.1.5');
+# VERSION
+# ABSTRACT: Check inbound mail against a user list
 
 my $CHECKED_TIME;
 
@@ -123,10 +124,6 @@ sub get_user_from_address {
 
 __END__
 
-=head1 NAME
-
-  Authentication Milter - UserDB Module
-
 =head1 DESCRIPTION
 
 Check if email has a local recipient account.
@@ -138,8 +135,6 @@ Check if email has a local recipient account.
             "lookup" : [ "hash:/etc/postfix/virtusertable" ]
         },
 
-=head1 SYNOPSIS
-
 =head2 CONFIG
 
 Add a block to the handlers section of your config as follows.
@@ -148,17 +143,4 @@ Add a block to the handlers section of your config as follows.
             "add_header" : 1,
             "lookup"     : [ "hash:/etc/postfix/virtusertable" ]
         },
-
-
-=head1 AUTHORS
-
-Marc Bradshaw E<lt>marc@marcbradshaw.netE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2017
-
-This library is free software; you may redistribute it and/or
-modify it under the same terms as Perl itself.
-
 

@@ -31,6 +31,7 @@ before_install:
    - coverage-setup
 
 install:
+    - cpanm --quiet --notest --skip-satisfied Dist::Zilla
     - cpanm --quiet --notest Mail::SPF --install-args="--install-path sbin=/tmp"
     - cpanm --quiet --notest SUPER
     - cpanm --quiet --notest Test::More Test::File::Contents Test::Perl::Critic
@@ -44,7 +45,12 @@ install:
     - cpanm --quiet --notest ClamAV::Client
     - cpanm --quiet --notest git://github.com/fastmailops/mail-dmarc.git@fastmail
     - cpanm --quiet --notest git://github.com/fastmail/authentication_milter.git@MailAuthenticationResultObject
+    - dzil authordeps --missing | cpanm --quiet --notest
+    - dzil listdeps --missing | cpanm --quiet --notest
     - cpan-install --coverage
+
+script:
+   - dzil test
 
 after_success:
   - coverage-report

@@ -2,7 +2,8 @@ package Mail::Milter::Authentication::Handler::UserDB::Hash;
 use strict;
 use warnings;
 use base 'Mail::Milter::Authentication::Handler::UserDB';
-use version; our $VERSION = version->declare('v1.1.4');
+# VERSION
+# ABSTRACT: Hash table based userdb provider
 
 use DB_File;
 

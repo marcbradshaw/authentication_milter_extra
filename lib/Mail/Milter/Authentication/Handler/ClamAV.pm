@@ -2,7 +2,8 @@ package Mail::Milter::Authentication::Handler::ClamAV;
 use strict;
 use warnings;
 use base 'Mail::Milter::Authentication::Handler';
-use version; our $VERSION = version->declare('v1.1.5');
+# VERSION
+# ABSTRACT: Clam AV Scanner for Authentication Milter
 
 use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
@@ -124,9 +125,6 @@ sub close_callback {
 
 __END__
 
-=head1 NAME
-
-  Authentication Milter - ClamAV Module
 
 =head1 DESCRIPTION
 
@@ -141,8 +139,6 @@ Virus check email for using clamav.
             "ca_port"        : "3310"
         },
 
-=head1 SYNOPSIS
-
 =head2 CONFIG
 
 Add a block to the handlers section of your config as follows.
@@ -153,17 +149,4 @@ Add a block to the handlers section of your config as follows.
             "ca_host"        : "127.0.0.1",
             "ca_port"        : "3310"
         },
-
-=head1 AUTHORS
-
-Marc Bradshaw E<lt>marc@marcbradshaw.netE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2017
-
-This library is free software; you may redistribute it and/or
-modify it under the same terms as Perl itself.
-
-
 

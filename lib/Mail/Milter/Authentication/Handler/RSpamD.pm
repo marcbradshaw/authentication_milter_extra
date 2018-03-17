@@ -2,7 +2,8 @@ package Mail::Milter::Authentication::Handler::RSpamD;
 use strict;
 use warnings;
 use base 'Mail::Milter::Authentication::Handler';
-use version; our $VERSION = version->declare('v1.1.5');
+# VERSION
+# #ABSTRACT: RSpamD scanning for Authentication Milter
 
 use English qw{ -no_match_vars };
 use Sys::Syslog qw{:standard :macros};
@@ -256,10 +257,6 @@ sub close_callback {
 
 __END__
 
-=head1 NAME
-
-  Authentication Milter - RSpamD Module
-
 =head1 DESCRIPTION
 
 Check email for spam using rspamd.
@@ -274,8 +271,6 @@ Check email for spam using rspamd.
             "remove_headers" : "yes"
         },
 
-=head1 SYNOPSIS
-
 =head2 CONFIG
 
 Add a block to the handlers section of your config as follows.
@@ -287,17 +282,4 @@ Add a block to the handlers section of your config as follows.
             "hard_reject"    : "1",
             "remove_headers" : "yes"
         },
-
-=head1 AUTHORS
-
-Marc Bradshaw E<lt>marc@marcbradshaw.netE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2017
-
-This library is free software; you may redistribute it and/or
-modify it under the same terms as Perl itself.
-
-
 
