@@ -1,5 +1,9 @@
 Revision history for Mail-Milter-Authentication-Extra
 
+{{$NEXT}}
+        - Pass headers as objects
+        - Update build system to dist zilla
+
 1.1.5   2017-12-16
         - Depends on Authentication Milter 1.1.5 for testing module
 
