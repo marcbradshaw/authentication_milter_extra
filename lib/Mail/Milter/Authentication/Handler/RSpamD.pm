@@ -181,6 +181,7 @@ sub eom_callback {
 
     my $j = JSON->new();
     my $rspamd_data = eval{ $j->decode( $response->{'content'} ); };
+    if ( my $error = $@ ) { die $error if $error =~ /Timeout/; }
     if ( ! exists( $rspamd_data->{'default'} ) ) {
         $self->log_error( 'RSpamD bad data from server' );
         my $header = Mail::AuthenticationResults::Header::Entry->new()->set_key( 'x-rspam' )->safe_set_value( 'temperror' );
