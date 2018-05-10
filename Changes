@@ -1,6 +1,7 @@
 Revision history for Mail-Milter-Authentication-Extra
 
 {{$NEXT}}
+        - Improve handling of timeouts
 
 2.20180318 2018-03-18 15:10:09+11:00 Australia/Melbourne
         - Pass headers as objects
