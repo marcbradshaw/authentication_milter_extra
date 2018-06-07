@@ -1,3 +1,4 @@
+X-Disposition-Quarantine: Quarantined due to SPAM policy
 Authentication-Results: test.module;
     x-local-user=pass;
     x-rspam=fail score=15.00 required=15.00

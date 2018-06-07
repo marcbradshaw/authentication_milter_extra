@@ -1,6 +1,7 @@
 package Mail::Milter::Authentication::Handler::SpamAssassin;
 use strict;
 use warnings;
+use Mail::Milter::Authentication 2.20180607;
 use base 'Mail::Milter::Authentication::Handler';
 # VERSION
 # ABSTRACT: SpamAssassin scanner for Authentication Milter
@@ -169,6 +170,10 @@ sub eom_callback {
         ' ',
         'required=', sprintf( '%.02f', $sa_status->{'threshold'} ),
     );
+
+    if ( $sa_status->{'isspam'} ne 'False' ) {
+        $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+    }
 
     my $hits = $sa_status->{'message'};
     # Wrap hits header

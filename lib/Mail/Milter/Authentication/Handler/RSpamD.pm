@@ -1,7 +1,7 @@
 package Mail::Milter::Authentication::Handler::RSpamD;
 use strict;
 use warnings;
-use Mail::Milter::Authentication 2.20180510;
+use Mail::Milter::Authentication 2.20180607;
 use base 'Mail::Milter::Authentication::Handler';
 # VERSION
 # #ABSTRACT: RSpamD scanning for Authentication Milter
@@ -213,7 +213,26 @@ sub eom_callback {
                 $self->reject_mail( '550 5.7.0 SPAM policy violation' );
                 $self->dbgout( 'RSpamDReject', "Policy reject", LOG_INFO );
             }
+            else {
+                $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+            }
         }
+        else {
+            $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+        }
+    }
+    if ( $action eq 'greylist' ) {
+        ## TODO actual greylisting
+        $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+    }
+    if ( $action eq 'rewrite_subject' ) {
+        $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+    }
+    if ( $action eq 'add_header' ) {
+        $self->quarantine_mail( 'Quarantined due to SPAM policy' );
+    }
+    if ( $action eq 'soft_reject' ) {
+        $self->defer_mail( 'SPAM policy violation, come back later' );
     }
 
     $self->prepend_header( 'X-Spam-score',  sprintf( '%.02f',  $spam->{'score'} ) );

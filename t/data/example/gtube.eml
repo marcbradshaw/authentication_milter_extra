@@ -1,3 +1,4 @@
+X-Disposition-Quarantine: Quarantined due to SPAM policy
 Authentication-Results: test.module;
     x-spam=fail score=1000.00 required=5.00
 X-Spam-hits: GTUBE,NO_RECEIVED,NO_RELAYS,FAKE_SPAMD

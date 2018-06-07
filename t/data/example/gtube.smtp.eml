@@ -9,6 +9,7 @@ Received: from test.module (localhost [127.0.0.1])
     by server.example.com (Authentication Milter) with ESMTP
 ############
 ############
+X-Disposition-Quarantine: Quarantined due to SPAM policy
 Authentication-Results: server.example.com;
     x-spam=fail score=1000.00 required=5.00
 X-Spam-hits: GTUBE,NO_RECEIVED,NO_RELAYS,FAKE_SPAMD
