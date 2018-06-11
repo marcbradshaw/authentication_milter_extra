@@ -1,6 +1,8 @@
 Revision history for Mail-Milter-Authentication-Extra
 
 {{$NEXT}}
+
+2.20180611 2018-06-11 19:57:05+10:00 Australia/Melbourne
         - Set X-Disposition-Quarantine header for SPAM
 
 2.20180510 2018-05-10 15:24:51+10:00 Australia/Melbourne
