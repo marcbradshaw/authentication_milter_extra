@@ -232,7 +232,7 @@ sub eom_callback {
         $self->quarantine_mail( 'Quarantined due to SPAM policy' );
     }
     if ( $action eq 'soft_reject' ) {
-        $self->defer_mail( '450 SPAM policy violation, come back later' );
+        $self->defer_mail( '450 4.7.1 SPAM policy violation, come back later' );
     }
 
     $self->prepend_header( 'X-Spam-score',  sprintf( '%.02f',  $spam->{'score'} ) );
